@@ -1,7 +1,8 @@
-package me.usainsrht.sit.command;
+package dev.sillyangel.sit.command;
 
-import me.usainsrht.sit.Sit;
-import org.bukkit.ChatColor;
+import dev.sillyangel.sit.Sit;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -23,7 +24,7 @@ public class SitCommand extends Command {
             else if (args[0].equalsIgnoreCase("reload")) {
                 Sit.getInstance().reloadConfig();
 
-                sender.sendMessage(ChatColor.GREEN+"config reloaded succesfully");
+                sender.sendMessage(Component.text("config reloaded succesfully", NamedTextColor.GREEN));
             }
             else {
                 sender.sendMessage("/sit reload");

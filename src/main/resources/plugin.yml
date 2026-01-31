@@ -1,7 +1,13 @@
 name: Sit
 version: '${project.version}'
-main: me.usainsrht.sit.Sit
-api-version: 1.13
-author: UsainSrht
+main: dev.sillyangel.sit.Sit
+api-version: '1.20'
+folia-supported: true
+author: sillyangel
 description: Simple stair sitting plugin.
 website: "https://usainsrht.works"
+commands:
+  sit:
+    description: Reload the plugin's configuration
+    usage: /sit reload
+    permission: sit.command

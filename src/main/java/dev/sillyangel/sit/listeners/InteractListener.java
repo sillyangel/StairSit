@@ -1,8 +1,9 @@
-package me.usainsrht.sit.listeners;
+package dev.sillyangel.sit.listeners;
 
-import me.usainsrht.sit.Sit;
+import dev.sillyangel.sit.Sit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
@@ -20,7 +21,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -35,6 +36,7 @@ public class InteractListener implements Listener {
         if (!e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
 
         Block block = e.getClickedBlock();
+        if (block == null) return;
         BlockData blockData = block.getBlockData();
 
         if (blockData instanceof Stairs) {
@@ -57,6 +59,7 @@ public class InteractListener implements Listener {
         FileConfiguration config = instance.getConfig();
         String selectedLayout = null;
 
+        if (config.getConfigurationSection("sitables") == null) return;
         Set<String> nodes = config.getConfigurationSection("sitables").getKeys(false);
         for (String node : nodes) {
 
@@ -71,7 +74,7 @@ public class InteractListener implements Listener {
             String mode = config.getString("sitables." + node + ".check");
             switch (mode) {
                 case "BLOCKDATA":
-                    Class claz;
+                    Class<?> claz;
                     for (String clasz : config.getStringList("sitables." + node + ".list")) {
                         try {
                             claz = Class.forName(clasz);
@@ -121,6 +124,10 @@ public class InteractListener implements Listener {
                     break;
                 case NORTH: loc.setYaw(0);
                     break;
+                default:
+                    // For all other directions, use player's yaw
+                    loc.setYaw(p.getLocation().getYaw()+180);
+                    break;
             }
         }
         else {
@@ -154,7 +161,8 @@ public class InteractListener implements Listener {
 
             stair.setInvulnerable(true);
             stair.setSilent(true);
-            stair.setMetadata("stair", new FixedMetadataValue(instance, true));
+            NamespacedKey key = new NamespacedKey(instance, "stair");
+            stair.getPersistentDataContainer().set(key, PersistentDataType.BOOLEAN, true);
 
             if (stair instanceof LivingEntity) {
                 LivingEntity livingEntity = (LivingEntity) stair;

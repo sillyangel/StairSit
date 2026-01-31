@@ -1,9 +1,9 @@
-package me.usainsrht.sit;
+package dev.sillyangel.sit;
 
-import me.usainsrht.sit.command.CommandHandler;
-import me.usainsrht.sit.command.SitCommand;
-import me.usainsrht.sit.listeners.DismountListener;
-import me.usainsrht.sit.listeners.InteractListener;
+import dev.sillyangel.sit.command.CommandHandler;
+import dev.sillyangel.sit.command.SitCommand;
+import dev.sillyangel.sit.listeners.DismountListener;
+import dev.sillyangel.sit.listeners.InteractListener;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
